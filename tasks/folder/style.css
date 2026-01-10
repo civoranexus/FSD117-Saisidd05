@@ -1,0 +1,459 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* ================= BASE ================= */
+body {
+    background: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ================= NAVBAR ================= */
+header {
+    background: #e5e5e5;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .container {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+    color: #1c1c1c;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Hamburger */
+.menu-toggle {
+    display: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #1c1c1c;
+}
+
+/* Nav links */
+.nav-links {
+    list-style: none;            /* ✅ REMOVE BULLETS */
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a {
+    color: #1c1c1c;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #ffb703;
+}
+
+/* Dark toggle */
+.dark-btn {
+    font-size: 1.1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #1c1c1c;
+}
+
+/* ================= DARK NAV ================= */
+body.dark header {
+    background: #1c1c1c;
+}
+
+body.dark .logo,
+body.dark .nav-links a,
+body.dark .menu-toggle,
+body.dark .dark-btn {
+    color: #ffffff;
+}
+
+/* ================= HERO ================= */
+#hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+        url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMu61bcEUS0zIfwwBMWgYHHbJNAyYW-ga1vw&s");
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    animation: heroFade 1s ease forwards;
+}
+
+@keyframes heroFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= ABOUT ================= */
+#about {
+    background: #ffffff;
+    padding: 80px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+}
+/* ================= ABOUT FIX ================= */
+.about-content {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px; /* professional look */
+    object-fit: cover;
+}
+
+.about-text {
+    max-width: 100%;
+}
+
+.about-text p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .profile-img {
+        margin: 0 auto;
+    }
+}
+
+/* ================= PROJECT LIST ================= */
+.project-list {
+    max-width: 800px;
+    margin: 0 auto 80px;
+}
+
+.project-item {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.4s ease;
+}
+
+.project-item.active .project-details {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= CONTACT ================= */
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-card,
+.contact-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Button */
+.contact-form button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ffb703, #f39c12);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background: #1c1c1c;
+    color: white;
+    text-align: center;
+    padding: 18px;
+}
+
+/* ================= MOBILE NAV ================= */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 52px;
+        left: 0;
+        width: 100%;
+        background: #e5e5e5;
+        display: none;
+        flex-direction: column;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .nav-links li {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .nav-links a {
+        padding: 14px 20px;
+        display: block;
+    }
+
+    body.dark .nav-links {
+        background: #1c1c1c;
+    }
+
+    body.dark .nav-links li {
+        border-color: #333;
+    }
+}
+
+/* ================= MOBILE CONTACT ================= */
+@media (max-width: 900px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+/* ================= DARK MODE ================= */
+body.dark {
+    background: #121212;
+    color: #e0e0e0;
+}   
+/* ================= CONTACT FINAL POLISH ================= */
+
+#contact {
+    padding: 90px 0;
+    background: #f6f6f6;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+/* Wrapper spacing */
+.contact-wrapper {
+    gap: 50px;
+}
+
+/* LEFT CARD TYPOGRAPHY */
+.contact-card {
+    line-height: 1.8;
+}
+
+.contact-name {
+    font-size: 1.45rem;
+    margin-bottom: 8px;
+}
+
+.contact-role,
+.contact-college {
+    font-size: 0.95rem;
+}
+
+.contact-info p {
+    margin-bottom: 12px;
+}
+
+/* ================= FORM LAYOUT FIX ================= */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Two inputs in one row */
+.contact-form input[type="text"],
+.contact-form input[type="email"] {
+    width: 100%;
+}
+
+/* Inputs + textarea look */
+.contact-form input,
+.contact-form textarea {
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    background: #fafafa;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #999;
+}
+
+/* Focus state */
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #ffb703;
+    box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.15);
+    background: #ffffff;
+}
+
+/* Textarea height fix */
+.contact-form textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+/* Button spacing */
+.contact-form button {
+    margin-top: 10px;
+}
+
+/* ================= DARK MODE CONTACT ================= */
+body.dark #contact {
+    background: #121212;
+}
+
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+    background: #1c1c1c;
+    border-color: #333;
+    color: #f1f1f1;
+}
+
+body.dark .contact-form input::placeholder,
+body.dark .contact-form textarea::placeholder {
+    color: #aaa;
+}
+body.dark .contact-form input:focus,
+body.dark .contact-form textarea:focus {
+    border-color: #ffb703;
+    box-shadow: 0 0 0 3px rgba(255, 183 , 3, 0.25);
+    background: #2c2c2c;
+}   
+/* ================= CONTACT FORM FIX ================= */
+
+/* Name + Email in one row */
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Message full width */
+.contact-form textarea,
+.contact-form button {
+    grid-column: 1 / -1;
+}
+
+/* Inputs clean look */
+.contact-form input,
+.contact-form textarea {
+    height: 42px;
+    padding: 10px 12px;
+}
+
+/* Textarea height override */
+.contact-form textarea {
+    height: auto;
+    min-height: 120px;
+}
+
+/* Button spacing */
+.contact-form button {
+    margin-top: 6px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .contact-form {
+        grid-template-columns: 1fr;
+    }
+}
+/* ================= PROJECT CTA BUTTON ================= */
+.view-btn {
+    background: transparent;
+    border: 1.5px solid #ffb703;
+    color: #ffb703;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+/* Hover */
+.view-btn:hover {
+    background: #ffb703;
+    color: #1c1c1c;
+    transform: translateY(-1px);
+}
+
+/* Active project state */
+.project-item.active .view-btn {
+    background: #ffb703;
+    color: #1c1c1c;
+}
