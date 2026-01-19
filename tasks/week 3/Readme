@@ -1,0 +1,18 @@
+# Full Stack Blog Post Web App
+
+A simple full-stack blog application built using frontend and backend technologies, running on a local server. Users can create, view, edit, and delete blog posts.
+
+## Features
+- CRUD operations for blog posts
+- RESTful API
+- Local server setup
+
+## Tech Stack
+- Frontend: HTML, CSS, JavaScript
+- Backend: Node.js, Express.js
+- Database: MongoDB / Local storage
+
+## Run Locally
+```bash
+npm install
+npm start
