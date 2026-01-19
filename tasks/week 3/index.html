@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .navbar { 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white; 
+            padding: 1.5rem 2rem;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .navbar h1 { 
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        #navbar-right { 
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .navbar button {
+            background: #e74c3c;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 2rem auto; 
+            padding: 0 1rem;
+        }
+        
+        .auth-form { 
+            background: white; 
+            padding: 2.5rem;
+            border-radius: 12px; 
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideIn 0.4s ease;
+        }
+        
+        .blog-form { 
+            background: white; 
+            padding: 2.5rem;
+            border-radius: 12px; 
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideIn 0.4s ease;
+        }
+        
+        .post-card { 
+            background: white; 
+            padding: 2rem;
+            border-radius: 12px; 
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .auth-form h2, .blog-form h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .auth-form h3, .post-card h3 {
+            color: #667eea;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        input, textarea { 
+            width: 100%; 
+            padding: 0.9rem; 
+            margin: 0.75rem 0;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus { 
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            background: #f8faff;
+        }
+        
+        button { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 0.9rem 1.8rem; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-delete { 
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-delete:hover { 
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .error { 
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white; 
+            padding: 1rem; 
+            border-radius: 6px; 
+            margin: 1rem 0;
+            border-left: 4px solid #a93226;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .success { 
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white; 
+            padding: 1rem; 
+            border-radius: 6px; 
+            margin: 1rem 0;
+            border-left: 4px solid #1e8449;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .hidden { display: none; }
+        
+        .post-meta { 
+            color: #95a5a6; 
+            font-size: 0.85rem; 
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .post-content { 
+            margin: 1.2rem 0; 
+            line-height: 1.8;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .auth-form p {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #7f8c8d;
+        }
+        
+        .auth-form button[style*="background:none"] {
+            background: none !important;
+            color: #667eea !important;
+            border: none !important;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+        
+        .auth-form button[style*="background:none"]:hover {
+            color: #764ba2 !important;
+            transform: none;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; gap: 1rem; }
+            .container { padding: 0 0.5rem; }
+            .auth-form, .blog-form { padding: 1.5rem; }
+            .navbar h1 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>✍️ BlogHub</h1>
+        <div id="navbar-right"></div>
+    </div>
+
+    <div class="container">
+        <div id="auth-section">
+            <div class="auth-form">
+                <h2>Welcome to BlogHub</h2>
+                <p style="text-align: center; margin-bottom: 1.5rem; color: #95a5a6;">Share your thoughts with the world</p>
+                <div id="auth-error"></div>
+                
+                <div id="login-form">
+                    <h3>🔓 Login</h3>
+                    <input type="email" id="login-email" placeholder="📧 Enter your email">
+                    <input type="password" id="login-password" placeholder="🔑 Enter your password">
+                    <button onclick="login()" style="width: 100%; margin-top: 1rem;">Login to BlogHub</button>
+                    <p style="margin-top: 1rem;">Don't have an account? <button onclick="toggleForm()" style="background:none; color:#667eea; border:none; cursor:pointer; text-decoration:underline; padding: 0; font-size: 0.9rem;">Create one now</button></p>
+                </div>
+
+                <div id="register-form" class="hidden">
+                    <h3>🎉 Create Account</h3>
+                    <input type="text" id="register-name" placeholder="👤 Full Name">
+                    <input type="email" id="register-email" placeholder="📧 Email">
+                    <input type="password" id="register-password" placeholder="🔑 Password">
+                    <button onclick="register()" style="width: 100%; margin-top: 1rem;">Create Account</button>
+                    <p style="margin-top: 1rem;">Already have an account? <button onclick="toggleForm()" style="background:none; color:#667eea; border:none; cursor:pointer; text-decoration:underline; padding: 0; font-size: 0.9rem;">Login here</button></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="blog-section" class="hidden">
+            <div class="blog-form">
+                <h2>✨ Share Your Story</h2>
+                <div id="post-error"></div>
+                <div id="post-success"></div>
+                <input type="text" id="post-title" placeholder="📌 What's your blog title?">
+                <textarea id="post-content" placeholder="📝 Write your thoughts here...Tell your story, share your ideas, inspire others..." rows="7"></textarea>
+                <button onclick="createPost()" style="width: 100%; margin-top: 1rem; font-size: 1.1rem;">🚀 Publish Post</button>
+            </div>
+
+            <h2 style="margin-top: 2.5rem; color: white; font-size: 1.5rem;">📚 Recent Stories</h2>
+            <div id="posts-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let token = localStorage.getItem('token');
+        let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
+        // Check if user is logged in
+        if (token && user) {
+            showBlogSection();
+            loadPosts();
+        } else {
+            showAuthSection();
+        }
+
+        function toggleForm() {
+            document.getElementById('login-form').classList.toggle('hidden');
+            document.getElementById('register-form').classList.toggle('hidden');
+        }
+
+        function showAuthSection() {
+            document.getElementById('auth-section').classList.remove('hidden');
+            document.getElementById('blog-section').classList.add('hidden');
+            document.getElementById('navbar-right').innerHTML = '';
+        }
+
+        function showBlogSection() {
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('blog-section').classList.remove('hidden');
+            document.getElementById('navbar-right').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; color: white;">
+                    <span style="font-size: 0.95rem;">👤 <strong>${escapeHtml(user.name)}</strong></span>
+                    <button onclick="logout()" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">🚪 Logout</button>
+                </div>
+            `;
+        }
+
+        async function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const errorDiv = document.getElementById('auth-error');
+
+            if (!name || !email || !password) {
+                errorDiv.innerHTML = '<div class="error">All fields required</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    token = data.token;
+                    user = data.user;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+                    errorDiv.innerHTML = '';
+                    showBlogSection();
+                    loadPosts();
+                } else {
+                    errorDiv.innerHTML = `<div class="error">${data.message}</div>`;
+                }
+            } catch (err) {
+                errorDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('auth-error');
+
+            if (!email || !password) {
+                errorDiv.innerHTML = '<div class="error">Email and password required</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    token = data.token;
+                    user = data.user;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+                    errorDiv.innerHTML = '';
+                    showBlogSection();
+                    loadPosts();
+                } else {
+                    errorDiv.innerHTML = `<div class="error">${data.message}</div>`;
+                }
+            } catch (err) {
+                errorDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+            }
+        }
+
+        async function createPost() {
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const errorDiv = document.getElementById('post-error');
+            const successDiv = document.getElementById('post-success');
+
+            if (!title || !content) {
+                errorDiv.innerHTML = '<div class="error">Title and content required</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/posts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ title, content })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    successDiv.innerHTML = '<div class="success">Post published!</div>';
+                    errorDiv.innerHTML = '';
+                    document.getElementById('post-title').value = '';
+                    document.getElementById('post-content').value = '';
+                    setTimeout(() => successDiv.innerHTML = '', 3000);
+                    loadPosts();
+                } else {
+                    errorDiv.innerHTML = `<div class="error">${data.message}</div>`;
+                }
+            } catch (err) {
+                errorDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+            }
+        }
+
+        async function loadPosts() {
+            try {
+                const res = await fetch(`${API_URL}/posts`);
+                const posts = await res.json();
+                const container = document.getElementById('posts-container');
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<div class="post-card" style="text-align: center; border-left: none; color: #95a5a6;"><p style="font-size: 1.1rem;">📝 No stories yet. Be the first to share yours!</p></div>';
+                    return;
+                }
+
+                container.innerHTML = posts.map(post => `
+                    <div class="post-card">
+                        <h3>✏️ ${escapeHtml(post.title)}</h3>
+                        <div class="post-meta">
+                            <span>👤 <strong>${escapeHtml(post.author.name)}</strong></span>
+                            <span>•</span>
+                            <span>📅 ${new Date(post.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})}</span>
+                        </div>
+                        <div class="post-content">${escapeHtml(post.content).replace(/\n/g, '<br>')}</div>
+                        ${user._id === post.author._id ? `<button class="btn-delete" onclick="deletePost('${post._id}')">🗑️ Delete Post</button>` : ''}
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading posts:', err);
+            }
+        }
+
+        async function deletePost(id) {
+            if (!confirm('Delete this post?')) return;
+
+            try {
+                const res = await fetch(`${API_URL}/posts/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    loadPosts();
+                }
+            } catch (err) {
+                console.error('Error deleting post:', err);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            token = null;
+            user = null;
+            showAuthSection();
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Refresh posts every 5 seconds
+        setInterval(loadPosts, 5000);
+    </script>
+</body>
+</html>
